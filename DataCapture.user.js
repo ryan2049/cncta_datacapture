@@ -42,7 +42,7 @@ var cd=cr.GetResearchItemFomMdbId(cj);
         console.log('ccta_datacapture loading');
 
         // define Preferences
-        qx.Class.define("CCTA_DataCapture.Preferences", {
+        /*qx.Class.define("CCTA_DataCapture.Preferences", {
           type: "singleton",
           extend: qx.core.Object,
 
@@ -151,8 +151,7 @@ var cd=cr.GetResearchItemFomMdbId(cj);
                   value: this.Settings[MaelstromTools.Preferences.USEDEDICATEDMAINMENU] == 1
                 });
                 var chkShowLoot = new qx.ui.form.CheckBox(Lang.gt("Show lootable resources (restart required)")).set({
-                  value: this.Settings[MaelstromTools.Preferences.SHOWLOOT] == 1/*,
-                  enabled: CCTAWrapperIsInstalled()*/
+                  value: this.Settings[MaelstromTools.Preferences.SHOWLOOT] == 1
                 });
                 var chkCostsNextMCV = new qx.ui.form.CheckBox(Lang.gt("Show time to next MCV")).set({
                   value: this.Settings[MaelstromTools.Preferences.SHOWCOSTSFORNEXTMCV] == 1
@@ -272,10 +271,10 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }
             }
           }
-        });
+        });*/
 
         // define Production
-        qx.Class.define("MaelstromTools.Production", {
+      /*  qx.Class.define("MaelstromTools.Production", {
           type: "singleton",
           extend: MaelstromTools.DefaultObject,
           members: {
@@ -411,10 +410,10 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }
             }
           }
-        });
+        });*/
 
         // define ResourceOverview
-        qx.Class.define("MaelstromTools.ResourceOverview", {
+       /* qx.Class.define("MaelstromTools.ResourceOverview", {
           type: "singleton",
           extend: MaelstromTools.DefaultObject,
           members: {
@@ -534,10 +533,10 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }
             }
           }
-        });
+        });*/
 
         // define BaseStatus
-        qx.Class.define("MaelstromTools.BaseStatus", {
+        /*qx.Class.define("MaelstromTools.BaseStatus", {
           type: "singleton",
           extend: MaelstromTools.DefaultObject,
           members: {
@@ -579,45 +578,6 @@ var cd=cr.GetResearchItemFomMdbId(cj);
                       var coordId = ncity.get_SupportDedicatedBaseCoordId();
                       this.Cache[cname]["SupportedCityX"] = (coordId & 0xffff);
                       this.Cache[cname]["SupportedCityY"] = ((coordId >> 0x10) & 0xffff);
-                      /*
-                      var cityX = ncity.get_PosX();
-                      var cityY = ncity.get_PosY();
-                      
-                      var mainData = ClientLib.Data.MainData.GetInstance();
-                      var visRegion = ClientLib.Vis.VisMain.GetInstance().get_Region();
-
-                      var gridW = visRegion.get_GridWidth();
-                      var gridH = visRegion.get_GridHeight();
-                      //console.log(cname);
-                      //console.log("x: " + cityX + " y: " + cityY);
-
-                      var worldObj = visRegion.GetObjectFromPosition((this.Cache[cname]["SupportedCityX"]*gridW), (this.Cache[cname]["SupportedCityY"]*gridH));
-                      
-                      //ClientLib.Vis.Region.RegionCity
-                      if (worldObj == null) {
-                        this.Cache[cname]["SupportTime"] = "";
-                      } else {
-                        console.log(cname);
-                        //console.log(worldObj.CalibrationSupportDuration());
-                        var weaponState = worldObj.get_SupportWeaponStatus();
-                        
-                        //console.log(this.calcDuration(ncity, worldObj));
-                        var cities = ClientLib.Data.MainData.GetInstance().get_Cities();
-                        cities.set_CurrentOwnCityId(ncity.get_Id());
-                        var status = worldObj.get_SupportWeaponStatus();
-                        var server = mainData.get_Server();
-                        //console.log(worldObj.CalculateSupportCalibrationEndStep(worldObj.get_SupportData(), worldObj.get_SupportWeapon()));
-                        console.log(status);
-                        console.log(currStep);
-                        this.Cache[cname]["SupportTime"] = mainData.get_Time().GetTimespanString(worldObj.CalculateSupportCalibrationEndStep(worldObj.get_SupportData(), worldObj.get_SupportWeapon()), currStep);
-                        //status.Status&ClientLib.Vis.Region.ESupportWeaponStatus.Calibrating)==ClientLib.Vis.Region.ESupportWeaponStatus.Calibrating
-                        var currStep = ClientLib.Data.MainData.GetInstance().get_Time().GetServerStep();
-                        //this.Cache[cname]["SupportTime"] = webfrontend.Util.getTimespanString(ClientLib.Data.MainData.GetInstance().get_Time().GetTimeSpan(Math.max(0, status.CalibrationEndStep) - currStep), false);
-                        //this.Cache[cname]["SupportTime"] = ClientLib.Data.MainData.GetInstance().get_Time().GetTimespanString(weaponState.CalibrationEndStep, currStep);
-                        //this.Cache[cname]["SupportTime"] = webfrontend.Util.getTimespanString(ClientLib.Data.MainData.GetInstance().get_Time().GetTimeSpan(Math.max(0, worldObj.CalculateSupportCalibrationEndStep(worldObj.get_SupportData(), worldObj.get_SupportWeapon()) - currStep)), false);
-                      //console.log(this.Cache[cname]["SupportTime"]);
-                      }
-                       */
                     } else { // prevent reference to undefined property ReferenceError
                       this.Cache[cname]["SupportedCityId"] = null;
                       this.Cache[cname]["SupportedCityName"] = null;
@@ -636,32 +596,6 @@ var cd=cr.GetResearchItemFomMdbId(cj);
                 console.log("MaelstromTools.BaseStatus.updateCache: ", e);
               }
             },
-            /*
-            calcDuration: function(currOwnCity, regionCity) {
-              var targetCity = MaelstromTools.Wrapper.GetCity(regionCity.get_Id());
-              
-              var supportBase=regionCity.get_SupportData();
-              if(supportBase == null)
-              {
-                return -1;
-              }
-              var weapon=regionCity.get_SupportWeapon();
-              if(weapon == null)
-              {
-                return -1;
-              }
-              if(currOwnCity.get_Id() == regionCity.get_Id())
-              {
-                if(supportBase.get_Magnitude() == 0) {
-                  return -1;
-                }
-                return 0;
-              }
-              var dx=(currOwnCity.get_X() - targetCity.get_PosX());
-              var dy=(currOwnCity.get_Y() - targetCity.get_PosY());
-              var distance=((dx * dx) + (dy * dy));
-              return Math.floor((weapon.pt + (weapon.tpf * Math.floor((Math.sqrt(distance) + 0.5)))));
-            },*/
 
             setWidgetLabels: function () {
               try {
@@ -744,26 +678,11 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }, this);
               return button;
             }
-            /*
-            getCalibrateAllOnSelectedBaseButton: function() {
-              var button = new qx.ui.form.Button("Calibrate all weapons on selected base").set({
-                appearance: "button-text-small",
-                toolTipText: "Calibrate all weapons",
-                width: 100,
-                height: 20
-              });
-              button.addListener("execute", function(e){
-                Util.calibrateWholeSupport(ClientLib.Data.MainData.GetInstance().get_Cities().get_CurrentCityId());
-              }, this);
-              return button;
-            }*/
-
-
           }
-        });
+        });*/
 
         // define Statics
-        qx.Class.define("MaelstromTools.Statics", {
+       /* qx.Class.define("MaelstromTools.Statics", {
           type: "static",
           statics: {
             Tiberium: 'Tiberium',
@@ -795,12 +714,12 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }
             }
           }
-        });
+        });*/
 
         // define Util
         //ClientLib.Data.Cities.prototype.GetCityByCoord
         //ClientLib.Data.City.prototype.get_HasIncommingAttack
-        qx.Class.define("CCTA_DataCapture.Util", {
+        /*qx.Class.define("CCTA_DataCapture.Util", {
           type: "static",
           statics: {
             ArrayUnique: function (array) {
@@ -1008,7 +927,7 @@ var cd=cr.GetResearchItemFomMdbId(cj);
                 }
 
                 var ncity = MaelstromTools.Wrapper.GetCity(visCity.get_Id());
-                /* ClientLib.Data.CityBuildings */
+                // ClientLib.Data.CityBuildings
                 //var cityBuildings = ncity.get_CityBuildingsData();
                 var cityUnits = ncity.get_CityUnitsData();
 
@@ -1016,11 +935,6 @@ var cd=cr.GetResearchItemFomMdbId(cj);
                 var buildings = ncity.get_Buildings().d;
                 var defenseUnits = MaelstromTools.Wrapper.GetDefenseUnits(cityUnits);
                 //var defenseUnits = MaelstromTools.Wrapper.GetDefenseUnits();
-
-                /*for(var u in buildings) {
-              console.log(buildings[u].get_MdbBuildingId());
-              console.log("----------------");
-            }*/
 
                 var buildingLoot = MaelstromTools.Util.getResourcesPart(buildings);
                 //var buildingLoot2 = MaelstromTools.Util.getResourcesPart(this.collectBuildings(ncity));
@@ -1035,13 +949,6 @@ var cd=cr.GetResearchItemFomMdbId(cj);
                 loot["CPNeeded"] = currentOwnCity.CalculateAttackCommandPointCostToCoord(ncity.get_X(), ncity.get_Y());
                 loot["LoadState"] = (loot["Factor"] > 0 ? 1 : 0);
                 loot["Total"] = loot[MaelstromTools.Statics.Research] + loot[MaelstromTools.Statics.Tiberium] + loot[MaelstromTools.Statics.Crystal] + loot[MaelstromTools.Statics.Dollar];
-
-                /*console.log("Building loot");
-                console.log( buildingLoot[ClientLib.Base.EResourceType.Tiberium] + " vs " +  buildingLoot2[ClientLib.Base.EResourceType.Tiberium]);
-                console.log( buildingLoot[ClientLib.Base.EResourceType.Crystal] + " vs " +  buildingLoot2[ClientLib.Base.EResourceType.Crystal]);
-                console.log( buildingLoot[ClientLib.Base.EResourceType.Gold] + " vs " +  buildingLoot2[ClientLib.Base.EResourceType.Gold]);
-                console.log( buildingLoot[ClientLib.Base.EResourceType.ResearchPoints] + " vs " +  buildingLoot2[ClientLib.Base.EResourceType.ResearchPoints]);
-                console.log("-------------");*/
                 return loot;
               } catch (e) {
                 console.log("MaelstromTools.Util.getResources", e);
@@ -1081,10 +988,10 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }
             }
           }
-        });
+        });*/
 
         // define Wrapper
-        qx.Class.define("MaelstromTools.Wrapper", {
+    /*    qx.Class.define("MaelstromTools.Wrapper", {
           type: "static",
           statics: {
             GetStepTime: function (step, defaultString) {
@@ -1151,10 +1058,10 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               return (Math.floor(ncity.get_LvlBase() * 100) / 100).toFixed(2);
             }
           }
-        });
+        });*/
 
         // define LocalStorage
-        qx.Class.define("MaelstromTools.LocalStorage", {
+  /*      qx.Class.define("MaelstromTools.LocalStorage", {
           type: "static",
           statics: {
             isSupported: function () {
@@ -1196,10 +1103,10 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               }
             }
           }
-        });
+        });*/
 
         // define Cache
-        qx.Class.define("MaelstromTools.Cache", {
+       /* qx.Class.define("MaelstromTools.Cache", {
           type: "singleton",
           extend: qx.core.Object,
           members: {
@@ -1239,7 +1146,7 @@ var cd=cr.GetResearchItemFomMdbId(cj);
               return this.SelectedBaseResources["LoadState"];
             }
           }
-        });
+        });*/
 
         var __MTCity_initialized = false; //k undeclared
 
