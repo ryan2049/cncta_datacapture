@@ -22,6 +22,8 @@
 						this.base(arguments, x);
 						this.set({layout: new qx.ui.layout.Grow(), label: "Data Capture", padding: 10});
 
+
+
 						var overlay = webfrontend.gui.alliance.AllianceOverlay.getInstance();
 						var mainTabview = overlay.getChildren()[12].getChildren()[0];
 						mainTabview.addAt(this, 0);
@@ -63,6 +65,51 @@
 					}
 				}
 			});
+
+		// define LocalStorage
+        qx.Class.define("CCTA_DataCapture.LocalStorage", {
+          type: "static",
+          statics: {
+            isSupported: function () {
+              return typeof (Storage) !== "undefined";
+            },
+            set: function (key, value) {
+              try {
+                if (CCTA_DataCapture.LocalStorage.isSupported()) {
+                  localStorage["CCTA_DataCapture_" + key] = JSON.stringify(value);
+                }
+              } catch (e) {
+                console.log("CCTA_DataCapture.LocalStorage.set: ", e);
+              }
+            },
+            get: function (key, defaultValueIfNotSet) {
+              try {
+                if (CCTA_DataCapture.LocalStorage.isSupported()) {
+                  if (localStorage["CCTA_DataCapture_" + key] != null && localStorage["CCTA_DataCapture_" + key] != 'undefined') {
+                    return JSON.parse(localStorage["CCTA_DataCapture_" + key]);
+                  }
+                }
+              } catch (e) {
+                console.log("CCTA_DataCapture.LocalStorage.get: ", e);
+              }
+              return defaultValueIfNotSet;
+            },
+            clearAll: function () {
+              try {
+                if (!CCTA_DataCapture.LocalStorage.isSupported()) {
+                  return;
+                }
+                for (var key in localStorage) {
+                  if (key.indexOf("CCTA_DataCapture_") == 0) {
+                    localStorage.removeItem(key);
+                  }
+                }
+              } catch (e) {
+                console.log("CCTA_DataCapture.LocalStorage.clearAll: ", e);
+              }
+            }
+          }
+        });
 	}
 
     function initialize_ccta_datacapture() {
@@ -90,3 +137,65 @@
     console.log("CTTA_DataCaptureScript: init error: ", e);
   }
 })();
+
+
+/*function createRandomRows(rowCount) {
+  var rowData = [];
+  var now = new Date().getTime();
+  var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
+  var nextId = 0;
+  for (var row = 0; row < rowCount; row++) {
+    var date = new Date(now + Math.random() * dateRange - dateRange / 2);
+    rowData.push([ Math.random() * 10000, nextId++]);
+  }
+  return rowData;
+}
+
+
+// window
+var win = new qx.ui.window.Window("Table").set({
+  layout : new qx.ui.layout.Grow(),
+  allowClose: false,
+  allowMinimize: false,
+  contentPadding: 0
+});
+this.getRoot().add(win);
+win.moveTo(30, 40);
+win.open();
+
+// table model
+var tableModel = new qx.ui.table.model.Simple();
+tableModel.setColumns([ "World Name", "Spreadsheet ID" ]);
+tableModel.setData(createRandomRows(6));
+
+// make second column editable
+tableModel.setColumnEditable(1, true);
+
+// table
+var table = new qx.ui.table.Table(tableModel).set({
+  decorator: null
+});
+win.add(table);
+
+var resetButton = new qx.ui.form.Button("Set Data");
+      resetButton.addListener("execute", function() {
+        tableModel.setData([[1, 1], [2,2]]);
+      }, this);
+this.getRoot().add(resetButton);
+
+var form = new qx.ui.form.Form();
+
+// add the first headline
+form.addGroupHeader("Registration");
+
+// add usernamne
+var userName = new qx.ui.form.TextField();
+userName.setRequired(true);
+form.add(userName, "Name");
+// add password
+var password = new qx.ui.form.PasswordField();
+password.setRequired(true);
+form.add(password, "Password");
+
+this.getRoot().add(form);
+*/
